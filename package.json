@@ -2,7 +2,6 @@
   "name": "quinzenaapp",
   "license": "0BSD",
   "version": "1.0.0",
-  "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -11,6 +10,8 @@
   },
   "dependencies": {
     "expo": "~53.0.9",
+    "expo-router": "^5.0.7",
+    "expo-sqlite": "^15.2.10",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-native": "0.79.2"
@@ -19,6 +20,11 @@
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
     "typescript": "~5.8.3"
+  },
+  "expo": {
+    "router": {
+      "appDir": "src/app"
+    }
   },
   "private": true
 }
