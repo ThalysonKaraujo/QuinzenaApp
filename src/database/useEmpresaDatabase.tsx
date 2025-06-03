@@ -31,7 +31,7 @@ export function useEmpresaDatabase() {
         
     }
 
-     async function getEmpresas(): Promise<EmpresaDatabase[]> {
+    async function getEmpresas(): Promise<EmpresaDatabase[]> {
         const result = await database.getAllAsync<EmpresaDatabase>(
             "SELECT * FROM Empresa"
         );

@@ -1,44 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList, TouchableOpacity } from "react-native";
 import { Logo } from "../components/logo/logo";
 import { EmpresaInput } from "../components/inputs/EmpresaInput";
 import { EmpresaButton } from "../components/buttons/EmpresaButton";
+import { ListaEmpresaButton } from "../components/buttons/ListaEmpresaButton";
+import { useEmpresaDatabase ,EmpresaDatabase } from "../database/useEmpresaDatabase";
+import { useRouter } from "expo-router";
+
 
 export default function HomeScreen() {
-    const [data, setData] = useState([
-        { id: '1', name: 'Empresa A' },
-        { id: '2', name: 'Empresa B' },
-        { id: '4', name: 'Empresa C' },
-        { id: '5', name: 'Empresa C' },
-        { id: '6', name: 'Empresa C' },
-        { id: '7', name: 'Empresa C' },
-    ]);
+    const { createEmpresa,getEmpresas } = useEmpresaDatabase();
+    const [data, setData] = useState<EmpresaDatabase[]>([]);
+    const [nomeEmpresa, setNomeEmpresa] = useState("");
+    const router = useRouter()
 
-    const handleItemPress = (itemName: string) => {
-        console.log('Clicou em:', itemName);
-        // Navegação depois
+    const handleItemPress = (itemId: number) => {
+        router.push(`/empresa/${itemId}`);
+    };
+
+    useEffect(() => {
+        carregarEmpresas();
+    }, []) 
+
+    const carregarEmpresas = async () => {
+        try {
+            const empresas = await getEmpresas();
+            setData(empresas);
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
+    const handleCadastrarEmpresa = async () => {
+
+        try {
+            await createEmpresa({nome: nomeEmpresa})
+            setNomeEmpresa('');
+            await carregarEmpresas();
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
         <FlatList
             data={data}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-                <TouchableOpacity
-                    style={styles.itemButton}
-                    onPress={() => handleItemPress(item.name)}
-                >
-                    <Text style={styles.itemButtonText}>{item.name}</Text>
-                </TouchableOpacity>
+                <ListaEmpresaButton 
+                    onPress={() => handleItemPress(item.id)}
+                    title={item.nome} />
             )}
             ListHeaderComponent={
                 <View style={styles.header}>
                     <Logo />
                     <Text style={styles.title}>Sabor Caseiro</Text>
-                    <EmpresaInput placeHolder={"Insira uma Empresa"} />
+                    <EmpresaInput placeHolder={"Insira uma Empresa"} value={nomeEmpresa} onChangeText={setNomeEmpresa} />
                     <EmpresaButton 
                         title="Cadastrar Empresa"
-                        onPress={() => console.log('Cadastrar empresa')}
+                        onPress={handleCadastrarEmpresa}
                     />
                     <Text style={styles.subTitle}>Empresas Cadastradas:</Text>
                 </View>

@@ -8,7 +8,7 @@ export type EmpresaButtonProps = {
     disabled?: boolean
 }
 
-export function EmpresaButton({ title, onPress ,disabled }: EmpresaButtonProps)  {
+export function ListaEmpresaButton({ title, onPress ,disabled }: EmpresaButtonProps)  {
   return (
     <TouchableOpacity
         style={styles.button} 
@@ -22,7 +22,7 @@ export function EmpresaButton({ title, onPress ,disabled }: EmpresaButtonProps) 
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#f4a03f', 
+    backgroundColor: '#795c4c', 
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4, 
