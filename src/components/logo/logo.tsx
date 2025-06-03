@@ -11,11 +11,10 @@ export function Logo({style = {}}) {
 
 const styles = StyleSheet.create({
     logoContainer: {
-        marginBottom: 20,
         alignItems:'center'
     },
     logo: {
-        width: 220,
-        height: 220,
+        width: 270,
+        height: 270,
     },
 });
