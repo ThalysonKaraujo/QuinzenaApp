@@ -11,7 +11,7 @@ export function useEmpresaDatabase() {
     async function createEmpresa(data: Omit<EmpresaDatabase, "id">) {
     if (!data.nome || data.nome.trim() === "") {
         throw new Error("O nome da empresa é obrigatório.");
-  }
+    }
         const statement = await database.prepareAsync(
             "INSERT INTO Empresa (nome) VALUES ($nome)"
         )
@@ -38,5 +38,15 @@ export function useEmpresaDatabase() {
         return result;
     }
 
-    return { createEmpresa, getEmpresas  }
+    async function deleteEmpresa(id: number) {
+        try {
+            await database.execAsync("DELETE FROM Empresa WHERE id = " + id)
+        } catch (error) {
+            throw error
+        }
+    }
+
+    
+
+    return { createEmpresa, getEmpresas, deleteEmpresa }
 }
