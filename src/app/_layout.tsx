@@ -5,7 +5,7 @@ import { initializeDatabase } from "../database/initializeDatabase";
 
 export default function Layout() {
     return (
-        <SQLiteProvider databaseName="Quinzena.db" onInit={initializeDatabase}>
+        <SQLiteProvider databaseName="Quinzenaa.db" onInit={initializeDatabase}>
             <Slot />
         </SQLiteProvider>
     )

@@ -11,7 +11,8 @@ import { ModalFinalizarQuinzena } from '../components/modals/ModalFinalizarQuinz
 import { useRouter } from 'expo-router';
 import { ListaEmpresaButton } from '../components/buttons/ListaEmpresaButton';
 import { useEffect } from 'react';
-import { ResumoRefeicaoProps, useRegistroDatabase } from '../database/useRegistroDatabase';
+import { RegistroListItem, ResumoRefeicaoProps, useRegistroDatabase } from '../database/useRegistroDatabase';
+
 
 export default function EmpresaScreen() {
     const { id } = useLocalSearchParams();
@@ -19,8 +20,7 @@ export default function EmpresaScreen() {
     const [modalFinalizarVisible, setModalFinalizarVisible] = useState(false);
     const [modalRegistroVisible, setModalRegistroVisible] = useState(false);
     const [refeicoes, setRefeicoes] = useState<RefeicaoDatabase[]>([])
-    const [valueRefeicao, setValueRefeicao] = useState<string | null> (null);
-    const [valueRegistro, setValueRegistro] = useState<string | null> (null);
+    const [valueRefeicao, setValueRefeicao] = useState<string | null> (null)
     const [nomeRefeicao, setNomeRefeicao] = useState<string | null>(null);
     const [quantidade, setQuantidade] = useState('');
     const [valorUnitario, setValorUnitario] = useState('');
@@ -28,11 +28,12 @@ export default function EmpresaScreen() {
     const [idRefeicaoSelecionada, setIdRefeicaoSelecionada] = useState<number | null>(null);
     const [resumoRefeicoes, setResumoRefeicoes] = useState<ResumoRefeicaoProps[]>([]);
     const [totalGeral, setTotalGeral] = useState<number>(0);
+    const [modalListarVisible, setModalListarVisible] = useState(false)
+    const [registros, setRegistros] = useState<RegistroListItem[]>([])
     
-
     const { createRefeicao, getRefeicoesByEmpresa } = useRefeicaoDatabase();
     const { deleteEmpresa } = useEmpresaDatabase();
-    const { createRegistro, getResumoRefeicao  } = useRegistroDatabase();
+    const { createRegistro, getResumoRefeicao, getRegistrosByEmpresa, updateQuantidade  } = useRegistroDatabase();
 
     async function handleDeleteEmpresa() {
         try {
@@ -66,7 +67,8 @@ export default function EmpresaScreen() {
             await createRegistro({
                 data: dataHoje,
                 quantidade: parseInt(quantidade),
-                idRefeicao: idRefeicaoSelecionada
+                idRefeicao: idRefeicaoSelecionada,
+                idEmpresa: Number(id),
             })
 
             setModalRegistroVisible(false);
@@ -122,7 +124,6 @@ export default function EmpresaScreen() {
         }
         }
 
-
     function limparCampos(){
         setValorUnitario('')
         setValueRefeicao(null)
@@ -133,7 +134,7 @@ export default function EmpresaScreen() {
             <Logo />
             <EmpresaButton title="Adicionar Refeição" onPress={() => setModalRefeicaoVisible(true)} />
             <ModalRefeicao visible={modalRefeicaoVisible} onClose={() => setModalRefeicaoVisible(false)} onSubmit={handleAdicionarRefeicao} title="Adicionar Refeição" message="Preencha os dados abaixo" value={valueRefeicao} setValue={setValueRefeicao} valorUnitario={valorUnitario} setValorUnitario={setValorUnitario}  />
-            <EmpresaButton title="Listar Inserções" />
+            <EmpresaButton title="Listar Inserções" onPress={() => router.push(`/empresa/${id}/registros`)} />
             <EmpresaButton title="Finalizar Quinzena" onPress={abrirModalFinalizar} />
             <ModalFinalizarQuinzena visible={modalFinalizarVisible} onClose={() => setModalFinalizarVisible(false)} onSubmit={handleDeleteEmpresa} 
             title='Finalizar Quinzena' resumoRefeicoes={resumoRefeicoes} totalGeral={totalGeral}  />

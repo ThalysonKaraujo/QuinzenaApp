@@ -6,6 +6,7 @@ import { EmpresaButton } from "../components/buttons/EmpresaButton";
 import { ListaEmpresaButton } from "../components/buttons/ListaEmpresaButton";
 import { useEmpresaDatabase ,EmpresaDatabase } from "../database/useEmpresaDatabase";
 import { useRouter } from "expo-router";
+import { RegistroListItem, ResumoRefeicaoProps, useRegistroDatabase } from '../database/useRegistroDatabase';
 
 
 export default function HomeScreen() {
@@ -13,6 +14,9 @@ export default function HomeScreen() {
     const [data, setData] = useState<EmpresaDatabase[]>([]);
     const [nomeEmpresa, setNomeEmpresa] = useState("");
     const router = useRouter()
+    
+
+    const { verificarEstruturaTabela } = useRegistroDatabase();
 
     const handleItemPress = (itemId: number) => {
         router.push(`/empresa/${itemId}`);
@@ -20,7 +24,11 @@ export default function HomeScreen() {
 
     useEffect(() => {
         carregarEmpresas();
+        verificarEstruturaTabela();
     }, []) 
+
+    
+ 
 
     const carregarEmpresas = async () => {
         try {

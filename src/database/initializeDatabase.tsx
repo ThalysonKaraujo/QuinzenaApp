@@ -27,6 +27,7 @@ export async function initializeDatabase(database: SQLiteDatabase) {
             idRefeicao INTEGER NOT NULL,
             idEmpresa INTEGER NOT NULL,
             FOREIGN KEY (idRefeicao) REFERENCES Refeicao(id) ON DELETE CASCADE
+            FOREIGN KEY (idEmpresa) REFERENCES Empresa(id) ON DELETE CASCADE
         );`
     );
 }
