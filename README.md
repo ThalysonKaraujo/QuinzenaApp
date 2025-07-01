@@ -44,7 +44,7 @@ npx expo start
    - Quantidade inserida
    - Data da inserção
 
-## Screnshots
+## Screenshots
 
 ### Tela de Empresas (Cadastro e Seleção)
 <img src="./screenshots/tela-empresas.jpeg" alt="Tela de Empresas" width="200">
