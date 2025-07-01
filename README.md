@@ -47,7 +47,7 @@ npx expo start
 ## Screnshots
 
 ### Tela de Empresas (Cadastro e Seleção)
-<img src="./screenshots/tela-empresas.jpeg" alt="Tela de Empresas" width="300">
+<img src="./screenshots/tela-empresas.jpeg" alt="Tela de Empresas" width="200">
 
 ### Tela de Refeições
 <img src="./screenshots/tela-refeicao.jpeg" width="200">
