@@ -44,6 +44,20 @@ npx expo start
    - Quantidade inserida
    - Data da inserção
 
+## Screnshots
+
+### Tela de Empresas (Cadastro e Seleção)
+<img src="./screenshots/tela-empresas.jpeg" alt="Tela de Empresas" width="300">
+
+### Tela de Refeições
+<img src="./screenshots/tela-refeicao.jpeg" width="300">
+
+### Inserção de Quantidades (Modal)
+<img src="./screenshots/tela-listagem.jpeg" width="300">
+
+### Resumo da Quinzena
+<img src="./screenshots/tela-finalizacao.jpeg" width="300">
+
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
