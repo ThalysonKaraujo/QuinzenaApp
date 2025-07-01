@@ -1,5 +1,9 @@
 ## QuinzenaApp
 
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+
 Este aplicativo foi criado para automatizar o cálculo quinzenal de refeições fornecidas por empresas de alimentação. Ele permite cadastrar empresas, criar refeições (como café, almoço e jantar), definir valores unitários e registrar quantidades consumidas.
 
 O app calcula automaticamente o total da quinzena, economizando tempo e evitando erros manuais no controle dos valores.
