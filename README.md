@@ -50,13 +50,13 @@ npx expo start
 <img src="./screenshots/tela-empresas.jpeg" alt="Tela de Empresas" width="300">
 
 ### Tela de Refeições
-<img src="./screenshots/tela-refeicao.jpeg" width="300">
+<img src="./screenshots/tela-refeicao.jpeg" width="200">
 
 ### Inserção de Quantidades (Modal)
-<img src="./screenshots/tela-listagem.jpeg" width="300">
+<img src="./screenshots/tela-listagem.jpeg" width="200">
 
 ### Resumo da Quinzena
-<img src="./screenshots/tela-finalizacao.jpeg" width="300">
+<img src="./screenshots/tela-finalizacao.jpeg" width="200">
 
 ## Licença
 
