@@ -41,16 +41,6 @@ export function useRegistroDatabase() {
 
     }
 
-    async function verificarEstruturaTabela() {
-    try {
-        const resultado = await database.getAllAsync(`PRAGMA table_info(RegistroRefeicao);`);
-        console.log("Estrutura da tabela RegistroRefeicao:", resultado);
-    } catch (error) {
-        console.error("Erro ao verificar estrutura da tabela:", error);
-    }
-    }
-
-
     async function getResumoRefeicao(idEmpresa: number): Promise<ResumoRefeicaoProps[]> {
         const result = await database.getAllAsync<ResumoRefeicaoProps>(
         `SELECT 
@@ -95,5 +85,5 @@ export function useRegistroDatabase() {
     
 
 
-    return { createRegistro, getResumoRefeicao, getRegistrosByEmpresa, updateQuantidade, verificarEstruturaTabela }
+    return { createRegistro, getResumoRefeicao, getRegistrosByEmpresa, updateQuantidade }
 }

@@ -40,7 +40,7 @@ export default function EmpresaScreen() {
             await deleteEmpresa(Number(id))
             router.push(`/`);
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -51,7 +51,7 @@ export default function EmpresaScreen() {
             const total = resumo.reduce((acc, item) => acc + item.valorTotal, 0);
             setTotalGeral(total);
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
     async function handleAdicionarQuantidade() {
@@ -60,10 +60,7 @@ export default function EmpresaScreen() {
             return ;
         }
         const dataHoje = new Date().toISOString().split('T')[0];
-            console.log(dataHoje)
-
         try {
-            
             await createRegistro({
                 data: dataHoje,
                 quantidade: parseInt(quantidade),
@@ -83,7 +80,7 @@ export default function EmpresaScreen() {
             const lista = await getRefeicoesByEmpresa(Number(id));
             setRefeicoes(lista);
         } catch (error){
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -108,7 +105,12 @@ export default function EmpresaScreen() {
             console.error('Limite de 3 refeições atingido')
             return ;
         }
-        
+        const refeicaoExiste = refeicoes.some(refeicao => refeicao.nome === valueRefeicao);
+        if (refeicaoExiste) {
+            console.error("Essa refeição já existe")
+            setModalRefeicaoVisible(false)
+            return ;
+        }
         try {
             await createRefeicao({
             nome: valueRefeicao!, 
@@ -120,9 +122,9 @@ export default function EmpresaScreen() {
             await carregarRefeicoes();
             limparCampos();
         } catch (error) {
-            console.log('Erro ao carregar refeições: ', error);
+            console.error(error);
         }
-        }
+    }
 
     function limparCampos(){
         setValorUnitario('')

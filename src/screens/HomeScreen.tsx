@@ -15,20 +15,13 @@ export default function HomeScreen() {
     const [nomeEmpresa, setNomeEmpresa] = useState("");
     const router = useRouter()
     
-
-    const { verificarEstruturaTabela } = useRegistroDatabase();
-
     const handleItemPress = (itemId: number) => {
         router.push(`/empresa/${itemId}`);
     };
 
     useEffect(() => {
         carregarEmpresas();
-        verificarEstruturaTabela();
     }, []) 
-
-    
- 
 
     const carregarEmpresas = async () => {
         try {
@@ -51,6 +44,7 @@ export default function HomeScreen() {
     };
 
     return (
+        <View style={styles.container}>
         <FlatList
             data={data}
             keyExtractor={(item) => item.id.toString()}
@@ -62,7 +56,7 @@ export default function HomeScreen() {
             ListHeaderComponent={
                 <View style={styles.header}>
                     <Logo />
-                    <Text style={styles.title}>Sabor Caseiro</Text>
+                    <Text style={styles.title}>Empresa</Text>
                     <EmpresaInput placeHolder={"Insira uma Empresa"} value={nomeEmpresa} onChangeText={setNomeEmpresa} />
                     <EmpresaButton 
                         title="Cadastrar Empresa"
@@ -73,10 +67,15 @@ export default function HomeScreen() {
             }
             contentContainerStyle={styles.contentContainer}
         />
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#edd4b6",
+    },
     contentContainer: {
         paddingHorizontal: 24,
         paddingBottom: 24,

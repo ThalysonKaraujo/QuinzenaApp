@@ -59,7 +59,7 @@ export default function TelaRegistros() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#edd4b6'
   },
   centered: {
     flex: 1,
