@@ -28,8 +28,6 @@ export default function EmpresaScreen() {
     const [idRefeicaoSelecionada, setIdRefeicaoSelecionada] = useState<number | null>(null);
     const [resumoRefeicoes, setResumoRefeicoes] = useState<ResumoRefeicaoProps[]>([]);
     const [totalGeral, setTotalGeral] = useState<number>(0);
-    const [modalListarVisible, setModalListarVisible] = useState(false)
-    const [registros, setRegistros] = useState<RegistroListItem[]>([])
     
     const { createRefeicao, getRefeicoesByEmpresa } = useRefeicaoDatabase();
     const { deleteEmpresa } = useEmpresaDatabase();

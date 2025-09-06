@@ -49,7 +49,8 @@ export function ModalRefeicao({
       <View style={styles.modalBackground}>
         <View style={styles.container}>
           <Text style={styles.label}>{title}</Text>
-          <Text>{message}</Text>
+          <Text style={styles.labelText}>{message}</Text>
+          <Text style={{ marginBottom: 8, fontSize: 16 }}>Tipo de Refeição:</Text>
 
           <DropDownPicker
             open={open}
@@ -62,6 +63,8 @@ export function ModalRefeicao({
             style={{ borderColor: '#ccc' }}
             dropDownContainerStyle={{ borderColor: '#ccc' }}
           />
+
+          <Text style={{ marginTop: 16, marginBottom: 8, fontSize: 16 }}>Valor Unitário:</Text>
 
           <EmpresaInput
             placeHolder="Digite o valor unitário da refeição"
@@ -112,8 +115,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#edd4b6',
   },
   label: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: '600',
+  },
+  labelText: {
+    fontSize: 16,
+    marginBottom: 12,
   },
   errorText: {
     color: 'red',

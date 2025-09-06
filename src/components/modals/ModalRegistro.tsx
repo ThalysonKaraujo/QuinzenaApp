@@ -11,12 +11,7 @@ type ModalRegistroProps = {
     onChangeValue: (value: string) => void;
 }
 
-
-
-
-
 export function ModalRegistro({visible, onClose, onSubmit, value, onChangeValue  }: ModalRegistroProps) {
-    const[errorMsg, setErrorMsg] = useState('')
 
     function handleChangedText(text: string) {
     const texto = text.replace(/[^0-9]/g, '')
@@ -27,6 +22,7 @@ export function ModalRegistro({visible, onClose, onSubmit, value, onChangeValue 
         <Modal visible={visible} animationType='slide' onRequestClose={onClose}>
             <View style={styles.modalBackground}>
                 <View style={styles.container}>
+                    <Text style={styles.label}>Adicionar Quantidade</Text>
                     <EmpresaInput placeHolder='Adicione a quantidade da refeição' value={value} onChangeText={handleChangedText} />
                     <ModalButton title='Confirmar' onPress={onSubmit}  />
                     <ModalButton title='Fechar' onPress={onClose} />
@@ -54,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#edd4b6',
   },
   label: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
   },
 });
