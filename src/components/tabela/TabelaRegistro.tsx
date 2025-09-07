@@ -5,13 +5,11 @@ import { EmpresaButton } from '../buttons/EmpresaButton';
 
 type Props = {
   registros: RegistroListItem[];
-  onUpdateQuantidade: (id: number, novaQuantidade: number) => void;
+  onEdit: (registro: RegistroListItem) => void;
   onClose: () => void;
 };
 
-export function TabelaRegistros({ registros, onUpdateQuantidade, onClose }: Props) {
-  const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [novaQtd, setNovaQtd] = useState<{ [id: number]: string }>({});
+export function TabelaRegistros({ registros, onEdit, onClose }: Props) {
 
   function formatarData(data: string): string {
     const [ano, mes, dia] = data.split('-')
@@ -30,48 +28,17 @@ export function TabelaRegistros({ registros, onUpdateQuantidade, onClose }: Prop
       <FlatList
         data={registros}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => {
-          const estaEditando = editandoId === item.id;
-
-          return (
+        renderItem={({ item }) => (
             <View style={styles.row}>
               <Text style={styles.cell}>{item.nomeRefeicao}</Text>
-
-              {estaEditando ? (
-                <TextInput
-                  style={[styles.cell, styles.input]}
-                  keyboardType="numeric"
-                  value={novaQtd[item.id] ?? item.quantidade.toString()}
-                  onChangeText={(text) =>
-                    setNovaQtd((prev) => ({ ...prev, [item.id]: text }))
-                  }
-                />
-              ) : (
-                <Text style={styles.cell}>{item.quantidade}</Text>
-              )}
-
+              <Text style={styles.cell}>{item.quantidade}</Text>
               <Text style={styles.cell}>{formatarData(item.data)}</Text>
-
-              {estaEditando ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    const novaQuantidade = parseInt(novaQtd[item.id]);
-                    if (!isNaN(novaQuantidade)) {
-                      onUpdateQuantidade(item.id, novaQuantidade);
-                      setEditandoId(null);
-                    }
-                  }}
-                >
-                  <Text style={styles.saveButtonText}>Salvar</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity onPress={() => setEditandoId(item.id)}>
-                  <Text style={styles.editText}>Editar</Text>
-                </TouchableOpacity>
-              )}
+              
+              <TouchableOpacity style={styles.cell} onPress={() => onEdit(item)}>
+                <Text style={styles.editText}>Editar</Text>
+              </TouchableOpacity>
             </View>
-          );
-        }}
+        )}
       />
 
       <EmpresaButton title='Fechar' onPress={onClose}/>

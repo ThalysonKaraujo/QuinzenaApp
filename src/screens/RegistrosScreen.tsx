@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useRegistroDatabase, RegistroListItem } from '../database/useRegistroDatabase';
 import { TabelaRegistros } from '../components/tabela/TabelaRegistro';
+import { ModalEditarRegistro } from '../components/modals/ModalEditarRegistro';
 
 // Componente simples para o ícone de seta
 const BackArrowIcon = () => (
@@ -14,8 +15,10 @@ export default function TelaRegistros() {
   const { id } = useLocalSearchParams();
   const [registros, setRegistros] = useState<RegistroListItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [registroSelecionado, setRegistroSelecionado] = useState<RegistroListItem | null>(null);
 
-  const { getRegistrosByEmpresa, updateQuantidade } = useRegistroDatabase();
+  const { getRegistrosByEmpresa, updateRegistro } = useRegistroDatabase();
   const router = useRouter();
 
   async function carregarRegistros() {
@@ -29,12 +32,19 @@ export default function TelaRegistros() {
     }
   }
 
-  async function handleUpdateQuantidade(idRegistro: number, novaQuantidade: number) {
-    try {
-      await updateQuantidade(idRegistro, novaQuantidade);
-      await carregarRegistros(); // atualiza a lista após edição
+  function handleAbrirModal(registro: RegistroListItem) {
+    setRegistroSelecionado(registro);
+    setModalVisible(true);
+  }
+
+  async function handleUpdateRegistro(idRegistro: number, novaData: string, novaQuantidade:number) {
+    try{
+      await updateRegistro(idRegistro, novaData, novaQuantidade);
+      await carregarRegistros();
+      setModalVisible(false);
+      setRegistroSelecionado(null);
     } catch (error) {
-      console.error("Erro ao atualizar quantidade:", error);
+      console.error(error);
     }
   }
 
@@ -63,10 +73,19 @@ export default function TelaRegistros() {
 
       <TabelaRegistros
         registros={registros}
-        onUpdateQuantidade={handleUpdateQuantidade}
+        onEdit={handleAbrirModal}
         onClose={() => router.back()}
       />
+
+      <ModalEditarRegistro
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSubmit={handleUpdateRegistro}
+        registro={registroSelecionado}
+      />
     </SafeAreaView>
+
+    
   );
 }
 
