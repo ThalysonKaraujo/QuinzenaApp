@@ -3,6 +3,7 @@
     "name": "QuinzenaApp",
     "slug": "QuinzenaApp",
     "version": "1.0.0",
+    "scheme": "quinzenapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

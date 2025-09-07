@@ -82,8 +82,22 @@ export function useRegistroDatabase() {
         )
     }
 
+    async function deleteRegistro(idRegistro: number) {
+        await database.runAsync(
+            `DELETE FROM RegistroRefeicao
+            WHERE id = ?`, [idRegistro]
+        )
+    }
+
+    async function updateData(idRegistro: number, novaData: string) {
+        await database.runAsync(
+            `UPDATE RegistroRefeicao
+            SET data = ?
+            WHERE id = ?`, [novaData, idRegistro]
+        )
+    }
     
 
 
-    return { createRegistro, getResumoRefeicao, getRegistrosByEmpresa, updateQuantidade }
+    return { createRegistro, getResumoRefeicao, getRegistrosByEmpresa, updateQuantidade, deleteRegistro, updateData }
 }

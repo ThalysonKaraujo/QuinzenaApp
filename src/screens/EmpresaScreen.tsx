@@ -1,4 +1,4 @@
-import { View, StyleSheet, Modal, FlatList } from 'react-native';
+import { View, StyleSheet, Modal, FlatList, Button } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { EmpresaButton } from '../components/buttons/EmpresaButton';
 import { Logo } from '../components/logo/logo';
@@ -13,6 +13,12 @@ import { ListaEmpresaButton } from '../components/buttons/ListaEmpresaButton';
 import { useEffect } from 'react';
 import { RegistroListItem, ResumoRefeicaoProps, useRegistroDatabase } from '../database/useRegistroDatabase';
 
+type RefeicaoSelecionada = {
+    id: number;
+    nome: string;
+    valorUnitario: number;
+}
+
 
 export default function EmpresaScreen() {
     const { id } = useLocalSearchParams();
@@ -25,13 +31,13 @@ export default function EmpresaScreen() {
     const [quantidade, setQuantidade] = useState('');
     const [valorUnitario, setValorUnitario] = useState('');
     const router = useRouter();
+    const [refeicaoSelecionada, setRefeicaoSelecionada] = useState<RefeicaoSelecionada | null>(null);
     const [idRefeicaoSelecionada, setIdRefeicaoSelecionada] = useState<number | null>(null);
     const [resumoRefeicoes, setResumoRefeicoes] = useState<ResumoRefeicaoProps[]>([]);
     const [totalGeral, setTotalGeral] = useState<number>(0);
-    
-    const { createRefeicao, getRefeicoesByEmpresa } = useRefeicaoDatabase();
+    const { createRefeicao, getRefeicoesByEmpresa, editRefeicao } = useRefeicaoDatabase();
     const { deleteEmpresa } = useEmpresaDatabase();
-    const { createRegistro, getResumoRefeicao, getRegistrosByEmpresa, updateQuantidade  } = useRegistroDatabase();
+    const { createRegistro, getResumoRefeicao } = useRegistroDatabase();
 
     async function handleDeleteEmpresa() {
         try {
@@ -40,6 +46,16 @@ export default function EmpresaScreen() {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    function abrirModalRegistro(refeicao: RefeicaoDatabase) {
+        setRefeicaoSelecionada({
+            id: refeicao.id,
+            nome: refeicao.nome,
+            valorUnitario: refeicao.valorUnitario
+        });
+        setIdRefeicaoSelecionada(refeicao.id)
+        setModalRegistroVisible(true)
     }
 
     async function carregarResumo(){
@@ -85,13 +101,6 @@ export default function EmpresaScreen() {
     useEffect(() => {
         carregarRefeicoes();
     }, []);
-        
-
-    function abrirModalRegistro(refeicaoId: number, nome: string) {
-        setIdRefeicaoSelecionada(refeicaoId);
-        setNomeRefeicao(nome);
-        setModalRegistroVisible(true);
-    }
 
     async function abrirModalFinalizar() {
         await carregarResumo()
@@ -129,6 +138,15 @@ export default function EmpresaScreen() {
         setValueRefeicao(null)
     }
 
+    async function updateRefeicao(idRefeicao: number, novoValorUnitario: number) {
+        try {
+           await editRefeicao(idRefeicao, novoValorUnitario);
+           await carregarRefeicoes();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Logo />
@@ -142,10 +160,19 @@ export default function EmpresaScreen() {
             data={refeicoes}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-                <ListaEmpresaButton title={item.nome} onPress={() => abrirModalRegistro(item.id, item.nome)} />
+                <ListaEmpresaButton title={item.nome} onPress={() => abrirModalRegistro(item)} />
             )}
             />
-            <ModalRegistro visible={modalRegistroVisible} onClose={() => setModalRegistroVisible(false)} onSubmit={handleAdicionarQuantidade} value={quantidade} onChangeValue={setQuantidade} />
+            <EmpresaButton title='Voltar' onPress={() => router.back()}/>
+            <ModalRegistro 
+            visible={modalRegistroVisible} 
+            onClose={() => setModalRegistroVisible(false)} 
+            onSubmit={handleAdicionarQuantidade} 
+            value={quantidade} 
+            onChangeValue={setQuantidade} 
+            updateRefeicao={updateRefeicao}
+            refeicaoSelecionada={refeicaoSelecionada}
+            />
         </View>
     );
 }

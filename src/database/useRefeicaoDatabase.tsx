@@ -23,7 +23,6 @@ export function useRefeicaoDatabase() {
         } finally {
             await statement.finalizeAsync();
         }
-
         }
     async function getRefeicoesByEmpresa(idEmpresa: number): Promise<RefeicaoDatabase[]> {
         const result = await database.getAllAsync<RefeicaoDatabase>(
@@ -38,8 +37,22 @@ export function useRefeicaoDatabase() {
             "SELECT id FROM Empresa WHERE id = ?",
             [id]
         );
-        // Se encontrou um resultado, a empresa existe
         return !!result;
     }
-    return {createRefeicao, getRefeicoesByEmpresa, checkEmpresaExists};
+
+    async function deleteRefeicao(id: number): Promise<void> {
+        await database.getFirstAsync(
+            "DELETE FROM Refeicao WHERE id = ?",
+            [id]
+        );
+    }
+
+    async function editRefeicao(id: number, valorUnitario: number): Promise<void> {
+        await database.getFirstAsync(
+            "UPDATE Refeicao SET valorUnitario = ? WHERE id = ?",
+            [valorUnitario, id]
+        );
+    }
+
+    return {createRefeicao, getRefeicoesByEmpresa, checkEmpresaExists, deleteRefeicao, editRefeicao};
 }
